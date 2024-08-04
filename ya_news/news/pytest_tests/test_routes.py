@@ -22,16 +22,16 @@ USERS_SIGNUP_URL = 'users:signup'
     'name, note_object',
     (
         (NEWS_HOME_URL, None),
-        (NEWS_DETAIL_URL, (pytest.lazy_fixture('news')).id),
         (USERS_LOGIN_URL, None),
         (USERS_LOGOUT_URL, None),
         (USERS_SIGNUP_URL, None),
     ),
 )
-def test_pages_availability_anonymous_user(name, note_object, client):
+def test_pages_availability_anonymous_user(name, news, note_object, client):
     url = reverse(name, args=note_object)
     response = client.get(url)
     assert response.status_code == HTTPStatus.OK
+    assert NEWS_DETAIL_URL == news.id
 
 
 @pytest.mark.parametrize(
