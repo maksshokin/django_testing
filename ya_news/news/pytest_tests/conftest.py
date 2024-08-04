@@ -66,4 +66,3 @@ def all_comment(news: News, author: User) -> Comment:
         )
         comment.created = now + timedelta(days=index)
         comment.save()
-
