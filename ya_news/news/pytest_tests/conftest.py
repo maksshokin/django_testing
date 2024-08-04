@@ -64,3 +64,8 @@ def all_comment(news: News, author: User) -> Comment:
         )
         comment.created = now + timedelta(days=index)
         comment.save()
+
+
+@pytest.fixture
+def id_for_args(news: News) -> tuple[int]:
+    return news.id,
