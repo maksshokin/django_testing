@@ -27,21 +27,19 @@ def author_client(author: User, client: Client) -> Client:
 
 @pytest.fixture
 def news() -> News:
-    news: News = News.objects.create(
+    return News.objects.create(
         title='Заголовок',
         text='Текст новости',
     )
-    return news
 
 
 @pytest.fixture
 def comment(author: User, news: News) -> Comment:
-    comment: Comment = Comment.objects.create(
+    return Comment.objects.create(
         news=news,
         author=author,
         text='Текст'
     )
-    return comment
 
 
 @pytest.fixture
@@ -69,19 +67,3 @@ def all_comment(news: News, author: User) -> Comment:
         )
         comment.created = now + timedelta(days=index)
         comment.save()
-
-
-@pytest.fixture
-def form_data() -> dict:
-    return {'text': COMMENT_TEXT}
-
-
-@pytest.fixture
-def url_to_comments(news: News) -> str:
-    url: str = reverse('news:detail', args=(news.id,))
-    return url + '#comments'
-
-
-@pytest.fixture
-def id_for_args(news: News) -> tuple[int]:
-    return news.id,

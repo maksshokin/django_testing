@@ -15,7 +15,7 @@ def test_news_count(client):
     url = reverse(NEWS_HOME_URL)
     response = client.get(url)
     object_list = response.context['object_list']
-    news_count = len(object_list)
+    news_count = object_list.count()
     assert news_count == settings.NEWS_COUNT_ON_HOME_PAGE
 
 

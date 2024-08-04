@@ -1,13 +1,13 @@
-from http import HTTPStatus
-
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from pytils.translit import slugify
+from http import HTTPStatus
 
 from notes.forms import WARNING
 from notes.models import Note
+
+from pytils.translit import slugify
 
 User = get_user_model()
 
@@ -59,7 +59,7 @@ class TestLogic(TestCase):
         login_url = reverse(USERS_LOGIN_URL)
         expected_url = f'{login_url}?next={url}'
         self.assertRedirects(response, expected_url)
-        assert Note.objects.count() == 1
+        self.assertEqual(Note.objects.count(), 1)
 
     def test_not_unique_slug(self):
         url = reverse(NOTES_ADD_URL)
@@ -78,7 +78,7 @@ class TestLogic(TestCase):
         self.assertEqual(Note.objects.count(), 2)
         new_note = Note.objects.exclude(id=self.note.id).get()
         expected_slug = slugify(self.form_data['title'])
-        assert new_note.slug == expected_slug
+        self.assertEqual(new_note.slug, expected_slug)
 
     def test_author_can_edit_note(self):
         url = reverse(NOTES_EDIT_URL, args=(self.note.slug,))
