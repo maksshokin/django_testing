@@ -4,7 +4,6 @@ from random import choice
 from django.urls import reverse
 
 import pytest
-from conftest import COMMENT_TEXT
 from pytest_django.asserts import assertRedirects
 
 from news.forms import BAD_WORDS, WARNING
@@ -14,23 +13,24 @@ NEWS_DELETE_URL = 'news:delete'
 NEWS_DETAIL_URL = 'news:detail'
 NEWS_EDIT_URL = 'news:edit'
 NEWS_HOME_URL = 'news:home'
+COMMENT_TEXT = 'Новый текст комментария'
 
 
 @pytest.mark.django_db
-def test_anonymous_user_cant_create_comment(client, news, form_data):
+def test_anonymous_user_cant_create_comment(client, news):
     comments_count_before = Comment.objects.count()
     assert comments_count_before == 0
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
-    client.post(url, data=form_data)
+    client.post(url, data={'text': COMMENT_TEXT})
     comments_count_after = Comment.objects.count()
     assert comments_count_after == 0
 
 
-def test_user_can_create_comment(author_client, author, news, form_data):
+def test_user_can_create_comment(author_client, author, news):
     comments_count_before = Comment.objects.count()
     assert comments_count_before == 0
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
-    response = author_client.post(url, data=form_data)
+    response = author_client.post(url, data={'text': COMMENT_TEXT})
     assertRedirects(response, f'{url}#comments')
     comments_count_after = Comment.objects.count()
     assert comments_count_after == 1
@@ -57,23 +57,23 @@ def test_user_cant_use_bad_words(author_client, news):
 
 
 def test_author_can_edit_comment(
-    author_client, form_data, comment, url_to_comments, news, author
+    author_client, comment, news, author
 ):
     url = reverse(NEWS_EDIT_URL, args=(comment.id,))
-    response = author_client.post(url, data=form_data)
-    assertRedirects(response, url_to_comments)
+    response = author_client.post(url, data={'text': COMMENT_TEXT})
+    assertRedirects(response, reverse('news:detail', args=(news.id,)) + '#comments')
     comment.refresh_from_db()
     assert comment.text == COMMENT_TEXT
     assert comment.news == news
     assert comment.author == author
 
 
-def test_author_can_delete_comment(author_client, comment, url_to_comments):
+def test_author_can_delete_comment(author_client, comment, news):
     comments_count_before = Comment.objects.count()
     assert comments_count_before == 1
     url = reverse(NEWS_DELETE_URL, args=(comment.id,))
     response = author_client.delete(url)
-    assertRedirects(response, url_to_comments)
+    assertRedirects(response, reverse('news:detail', args=(news.id,)) + '#comments')
     comments_count_after = Comment.objects.count()
     assert comments_count_after == 0
 
@@ -89,10 +89,10 @@ def test_user_cant_delete_comment_of_another_user(admin_client, comment):
 
 
 def test_user_cant_edit_comment_of_another_user(
-    admin_client, comment, form_data, news, author
+    admin_client, comment, news, author
 ):
     url = reverse(NEWS_EDIT_URL, args=(comment.id,))
-    response = admin_client.post(url, data=form_data)
+    response = admin_client.post(url, data={'text': COMMENT_TEXT})
     assert response.status_code == HTTPStatus.NOT_FOUND
     comment.refresh_from_db()
     assert comment.text != COMMENT_TEXT

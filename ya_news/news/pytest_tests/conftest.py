@@ -10,8 +10,6 @@ import pytest
 
 from news.models import Comment, News
 
-COMMENT_TEXT: str = 'Новый текст комментария'
-
 
 @pytest.fixture
 def author(django_user_model: type[get_user_model()]) -> get_user_model():
