@@ -4,11 +4,11 @@ from random import choice
 from django.urls import reverse
 
 import pytest
-from pytest_tests.conftest import COMMENT_TEXT
 from pytest_django.asserts import assertRedirects
 
 from news.forms import BAD_WORDS, WARNING
 from news.models import Comment
+from ya_news.news.pytest_tests.conftest import COMMENT_TEXT
 
 NEWS_DELETE_URL = 'news:delete'
 NEWS_DETAIL_URL = 'news:detail'
