@@ -4,7 +4,7 @@ from random import choice
 from django.urls import reverse
 
 import pytest
-from conftest import COMMENT_TEXT
+from pytest_tests.conftest import COMMENT_TEXT
 from pytest_django.asserts import assertRedirects
 
 from news.forms import BAD_WORDS, WARNING
