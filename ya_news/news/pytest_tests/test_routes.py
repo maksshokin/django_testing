@@ -22,7 +22,7 @@ USERS_SIGNUP_URL = 'users:signup'
     'name, note_object',
     (
         (NEWS_HOME_URL, None),
-        (NEWS_DETAIL_URL, pytest.lazy_fixture('news').id),
+        (NEWS_DETAIL_URL, (pytest.lazy_fixture('news')).id),
         (USERS_LOGIN_URL, None),
         (USERS_LOGOUT_URL, None),
         (USERS_SIGNUP_URL, None),
