@@ -66,3 +66,8 @@ def all_comment(news: News, author: User) -> Comment:
         )
         comment.created = now + timedelta(days=index)
         comment.save()
+
+
+@pytest.fixture
+def form_data() -> dict:
+    return {'text': COMMENT_TEXT}
