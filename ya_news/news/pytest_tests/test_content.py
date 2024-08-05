@@ -60,4 +60,4 @@ def test_form_availability_for_different_clients(
     assert ('form' in response.context) is note_in_list
     if note_in_list:
         form = type(response.context['form'])
-        assert form == type(CommentForm())
+        assert isinstance(form, type(CommentForm()))
