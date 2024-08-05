@@ -1,6 +1,6 @@
-from http import HTTPStatus
-
 from django.urls import reverse
+
+from http import HTTPStatus
 
 import pytest
 from pytest_django.asserts import assertRedirects
@@ -22,14 +22,14 @@ USERS_SIGNUP_URL = 'users:signup'
     'name, note_object',
     (
         (NEWS_HOME_URL, None),
-        (NEWS_DETAIL_URL, pytest.lazy_fixture('id_for_args')),
+        (NEWS_DETAIL_URL, pytest.lazy_fixture('news')),
         (USERS_LOGIN_URL, None),
         (USERS_LOGOUT_URL, None),
         (USERS_SIGNUP_URL, None),
     ),
 )
 def test_pages_availability_anonymous_user(name, note_object, client):
-    url = reverse(name, args=note_object)
+    url = reverse(name, args = note_object if note_object == None else note_object.id)
     response = client.get(url)
     assert response.status_code == HTTPStatus.OK
 

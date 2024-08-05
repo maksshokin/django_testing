@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -6,9 +6,9 @@ from django.contrib.auth.models import User
 from django.test import Client
 from django.utils import timezone
 
-import pytest
-
 from news.models import Comment, News
+
+import pytest
 
 
 @pytest.fixture
@@ -41,7 +41,7 @@ def comment(author: User, news: News) -> Comment:
 
 @pytest.fixture
 def all_news() -> News:
-    today: datetime = datetime.today()
+    today = timezone.localdate()
     all_news: list[News] = [
         News(
             title=f'Новость {index}',
@@ -55,7 +55,7 @@ def all_news() -> News:
 
 @pytest.fixture
 def all_comment(news: News, author: User) -> Comment:
-    now: timezone.datetime = timezone.now()
+    now = timezone.now()
     for index in range(2):
         comment: Comment = Comment.objects.create(
             news=news,
@@ -64,8 +64,3 @@ def all_comment(news: News, author: User) -> Comment:
         )
         comment.created = now + timedelta(days=index)
         comment.save()
-
-
-@pytest.fixture
-def id_for_args(news: News) -> tuple[int]:
-    return news.id,
