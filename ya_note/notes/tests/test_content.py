@@ -3,7 +3,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 
 from notes.models import Note
-from ya_note.notes.forms import NoteForm
+from notes.forms import NoteForm
 
 User = get_user_model()
 
