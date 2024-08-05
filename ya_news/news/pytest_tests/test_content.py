@@ -3,7 +3,7 @@ from django.urls import reverse
 
 import pytest
 
-from ya_news.news.forms import CommentForm
+from news.forms import CommentForm
 
 AUTHOR_CLIENT = pytest.lazy_fixture('author_client')
 CLIENT = pytest.lazy_fixture('client')
