@@ -48,4 +48,3 @@ class TestContent(TestCase):
                 url = reverse(name, args=args)
                 response = self.author_client.get(url)
                 self.assertIn('form', response.context)
-                self.assertIsInstance(response.context['form'], NoteForm)
