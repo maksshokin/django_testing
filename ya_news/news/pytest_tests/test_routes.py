@@ -22,15 +22,15 @@ USERS_SIGNUP_URL = 'users:signup'
     'name, note_object',
     (
         (NEWS_HOME_URL, None),
-        (NEWS_DETAIL_URL, (1)),
+        (NEWS_DETAIL_URL, pytest.lazy_fixture('news')),
         (USERS_LOGIN_URL, None),
         (USERS_LOGOUT_URL, None),
         (USERS_SIGNUP_URL, None),
     ),
 )
-def test_pages_availability_anonymous_user(name, news, note_object, client):
-    if note_object == (1):
-        note_object = news.id
+def test_pages_availability_anonymous_user(name, note_object, client):
+    if note_object is not None:
+        note_object = [note_object.id]
     url = reverse(name, args=note_object)
     response = client.get(url)
     assert response.status_code == HTTPStatus.OK
