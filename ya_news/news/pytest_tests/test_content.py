@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.forms import ModelFormMetaclass
+from django.forms import ModelForm
 from django.urls import reverse
 
 import pytest
@@ -59,4 +59,4 @@ def test_form_availability_for_different_clients(
     assert ('form' in response.context) is note_in_list
     if note_in_list:
         form = type(response.context['form'])
-        assert isinstance(form, type(ModelFormMetaclass()))
+        assert isinstance(form, type(ModelForm()))
