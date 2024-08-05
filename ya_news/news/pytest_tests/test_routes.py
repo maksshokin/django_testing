@@ -29,10 +29,9 @@ USERS_SIGNUP_URL = 'users:signup'
     ),
 )
 def test_pages_availability_anonymous_user(name, note_object, client):
-    url = reverse(
-        name,
-        args=note_object if note_object is None else note_object.id
-    )
+    if note_object is None:
+        note_object = note_object.id
+    url = reverse(name, args=note_object)
     response = client.get(url)
     assert response.status_code == HTTPStatus.OK
 
