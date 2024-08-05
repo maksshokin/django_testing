@@ -59,5 +59,4 @@ def test_form_availability_for_different_clients(
     if note_in_list:
         form = str(response.context['form'])
         form.split
-        form = form[0][:1]
-        assert form == 'CommentForm'
+        assert form[1] == 'CommentForm'
