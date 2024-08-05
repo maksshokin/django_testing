@@ -57,6 +57,5 @@ def test_form_availability_for_different_clients(
     response = parametrized_client.get(url)
     assert ('form' in response.context) is note_in_list
     if note_in_list:
-        form = str(response.context['form'])
-        form.split(' ')
+        form = str(response.context['form']).split()
         assert form[0][1:] == 'CommentForm'
