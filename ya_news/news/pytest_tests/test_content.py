@@ -3,6 +3,8 @@ from django.urls import reverse
 
 import pytest
 
+from news.forms import CommentForm
+
 AUTHOR_CLIENT = pytest.lazy_fixture('author_client')
 CLIENT = pytest.lazy_fixture('client')
 NEWS_DETAIL_URL = 'news:detail'
@@ -56,3 +58,5 @@ def test_form_availability_for_different_clients(
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
     response = parametrized_client.get(url)
     assert ('form' in response.context) is note_in_list
+    if note_in_list:
+        assert isinstance(response.context['form'], CommentForm)
