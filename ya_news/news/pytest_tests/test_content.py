@@ -1,9 +1,8 @@
 from django.conf import settings
+from django.forms import ModelFormMetaclass
 from django.urls import reverse
 
 import pytest
-
-from news.forms import CommentForm
 
 AUTHOR_CLIENT = pytest.lazy_fixture('author_client')
 CLIENT = pytest.lazy_fixture('client')
@@ -60,4 +59,4 @@ def test_form_availability_for_different_clients(
     assert ('form' in response.context) is note_in_list
     if note_in_list:
         form = type(response.context['form'])
-        assert str(type(form)) == str(type(CommentForm()))
+        assert isinstance(form, type(ModelFormMetaclass()))
