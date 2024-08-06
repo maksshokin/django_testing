@@ -47,13 +47,15 @@ def test_comments_order(client, news):
 @pytest.mark.django_db
 def test_form_availability_for_client(news):
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
-    response = CLIENT.get(url)
+    client = CLIENT
+    response = client.get(url)
     assert ('form' in response.context) is False
 
 
 @pytest.mark.django_db
 def test_form_availability_for_author_client(news):
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
-    response = AUTHOR_CLIENT.get(url)
+    author = AUTHOR_CLIENT
+    response = author.get(url)
     assert ('form' in response.context) is True
     assert isinstance(response.context['form'], CommentForm)
