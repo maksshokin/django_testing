@@ -57,6 +57,7 @@ def test_form_availability_for_client(news):
     response = CLIENT.get(url)
     assert ('form' in response.context) is False
 
+
 def test_form_availability_for_author_client(news):
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
     response = AUTHOR_CLIENT.get(url)
