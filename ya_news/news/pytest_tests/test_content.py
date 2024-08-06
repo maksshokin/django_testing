@@ -44,14 +44,6 @@ def test_comments_order(client, news):
     assert sorted_dates == all_dates
 
 
-@pytest.mark.django_db
-@pytest.mark.parametrize(
-    'parametrized_client, note_in_list',
-    (
-        (AUTHOR_CLIENT, True),
-        (CLIENT, False),
-    )
-)
 def test_form_availability_for_client(news):
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
     response = CLIENT.get(url)
