@@ -6,7 +6,6 @@ from http import HTTPStatus
 
 from notes.forms import WARNING
 from notes.models import Note
-
 from pytils.translit import slugify
 
 User = get_user_model()

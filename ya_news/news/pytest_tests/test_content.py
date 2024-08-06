@@ -52,11 +52,13 @@ def test_comments_order(client, news):
         (CLIENT, False),
     )
 )
-def test_form_availability_for_different_clients(
-    parametrized_client, note_in_list, news
-):
+def test_form_availability_for_client(news):
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
-    response = parametrized_client.get(url)
-    assert ('form' in response.context) is note_in_list
-    if note_in_list:
-        assert isinstance(response.context['form'], CommentForm)
+    response = CLIENT.get(url)
+    assert ('form' in response.context) is False
+
+def test_form_availability_for_author_client(news):
+    url = reverse(NEWS_DETAIL_URL, args=(news.id,))
+    response = AUTHOR_CLIENT.get(url)
+    assert ('form' in response.context) is True
+    assert isinstance(response.context['form'], CommentForm)
