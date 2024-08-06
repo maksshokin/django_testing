@@ -43,13 +43,13 @@ def test_comments_order(client, news):
     sorted_dates = sorted(all_dates)
     assert sorted_dates == all_dates
 
-
+@pytest.mark.django_db
 def test_form_availability_for_client(news):
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
     response = CLIENT.get(url)
     assert ('form' in response.context) is False
 
-
+@pytest.mark.django_db
 def test_form_availability_for_author_client(news):
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
     response = AUTHOR_CLIENT.get(url)
