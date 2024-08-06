@@ -5,8 +5,6 @@ import pytest
 
 from news.forms import CommentForm
 
-AUTHOR_CLIENT = pytest.lazy_fixture('author_client')
-CLIENT = pytest.lazy_fixture('client')
 NEWS_DETAIL_URL = 'news:detail'
 NEWS_HOME_URL = 'news:home'
 
@@ -45,17 +43,15 @@ def test_comments_order(client, news):
 
 
 @pytest.mark.django_db
-def test_form_availability_for_client(news):
+def test_form_availability_for_client(news, client):
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
-    client = CLIENT
     response = client.get(url)
     assert ('form' in response.context) is False
 
 
 @pytest.mark.django_db
-def test_form_availability_for_author_client(news):
+def test_form_availability_for_author_client(news, author_client):
     url = reverse(NEWS_DETAIL_URL, args=(news.id,))
-    author = AUTHOR_CLIENT
-    response = author.get(url)
+    response = author_client.get(url)
     assert ('form' in response.context) is True
     assert isinstance(response.context['form'], CommentForm)
