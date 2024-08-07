@@ -1,8 +1,6 @@
+import pytest
 from django.conf import settings
 from django.urls import reverse
-
-import pytest
-
 from news.forms import CommentForm
 
 NEWS_DETAIL_URL = 'news:detail'

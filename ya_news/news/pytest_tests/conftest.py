@@ -1,14 +1,12 @@
 from datetime import timedelta
 
+import pytest
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.test import Client
 from django.utils import timezone
-
 from news.models import Comment, News
-
-import pytest
 
 
 @pytest.fixture

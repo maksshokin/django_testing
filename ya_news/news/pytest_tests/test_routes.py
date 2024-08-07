@@ -1,10 +1,8 @@
-from django.urls import reverse
-
 from http import HTTPStatus
 
 import pytest
+from django.urls import reverse
 from pytest_django.asserts import assertRedirects
-
 
 ADMIN_CLIENT = pytest.lazy_fixture('admin_client')
 AUTHOR_CLIENT = pytest.lazy_fixture('author_client')
